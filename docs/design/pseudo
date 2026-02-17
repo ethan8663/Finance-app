@@ -1,0 +1,43 @@
+Result class - either ok(value) or err(list of errors)
+ok(value) - errors must be empty
+errors(list of errors) - value must be null
+
+public final class Result<T>
+private final T value
+private final List<String> errors
+
+private Result(final T value, final List<String> errors)
+errors null check
+copy errors
+
+if value is not null and copy is not empty, throw error
+if value is null and copy is empty, throw error
+this.value = value
+this.errors = copied
+
+public static Result<T> ok(final T value)
+value null check
+return new Result<>(value, empty list)
+
+public static Result<T> err(final List<String> errors)
+errors null check, empty check
+return new Result<>(null, errors)
+
+public boolean isOk()
+return errors is empty
+
+public List<String> getErrors()
+return this.errors
+
+public T getValue()
+this.errors empty check
+return this value
+
+public static List<String> mergeErrors(List<Result<?>> results)
+results null check
+final List<String> acc = new Arraylist<>()
+for(final Result<?> result : results)
+result null check
+if not result.isOk
+acc.addAll(result.getErrors())
+return copy of acc
