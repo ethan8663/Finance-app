@@ -41,3 +41,39 @@ result null check
 if not result.isOk
 acc.addAll(result.getErrors())
 return copy of acc
+
+---------------------
+Money class
+private final BigDecimal amount
+
+private Money(final BigDecimal amount)
+amount null check
+amount positive check - if not, throw exception
+if moneyParsed has more than 2 decimal places - throw exception
+this amount = amount
+
+public static Result<Money> of(final String money)
+final Result<Money> result
+final List<String> errors
+final BigDecimal moneyParsed
+
+errors = ArrayList<>()
+
+try
+parse String into BigDecimal, assign to moneyParsed
+catch
+errors.add("Money should be a number.")
+return Result.of(errors)
+
+if moneyParsed has more than 2 decimal places
+errors.add("Money should not have more than 2 decimal places")
+
+if moneyParsed compareTo zero <= 0
+errors.add("Money should be a positive number.")
+
+if errors is empty
+return Result.of(new Money(moneyParsed))
+else
+return Result.of(errors)
+
+amount getter method
