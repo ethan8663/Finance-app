@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/***
+/**
  * Represents result. It can be either ok(value) or err(list of errors).
  * If ok(value), errors must be empty list.
  * If err(list of errors), value must be null.
@@ -53,7 +53,7 @@ public final class Result<T>
         this.errors = copied;
     }
 
-    /***
+    /**
      * Represents a factory method to construct ok(value).
      * Value can not be null.
      *
@@ -67,7 +67,7 @@ public final class Result<T>
         return new Result<>(value, List.of());
     }
 
-    /***
+    /**
      * Represents a factory method to construct err(list of errors).
      * The list can not be null nor empty.
      * Each element in the list can not be null nor empty.
@@ -95,7 +95,7 @@ public final class Result<T>
         return new Result<>(null, errors);
     }
 
-    /***
+    /**
      * Checks if errors is an empty list.
      *
      * @return true if empty. Otherwise, false.
@@ -105,7 +105,7 @@ public final class Result<T>
         return this.errors.isEmpty();
     }
 
-    /***
+    /**
      * Gets the list of errors.
      *
      * @return the list of String
@@ -115,7 +115,7 @@ public final class Result<T>
         return this.errors;
     }
 
-    /***
+    /**
      * Gets the value.
      * The list of errors must be empty.
      *
@@ -131,7 +131,7 @@ public final class Result<T>
         return this.value;
     }
 
-    /***
+    /**
      * Merges list of errors.
      * The list must not be null.
      * The element in the list must not be null.
