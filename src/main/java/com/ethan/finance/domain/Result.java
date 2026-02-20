@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents result. It can be either ok(value) or err(list of errors).
+ * Represents result.
+ * It is used to wrap a value or list of errors.
+ * When user input is invalid, which is expected, rather than throwing an exception, accumulate error messages and wrap them with Result.
+ *
  * If ok(value), errors must be empty list.
  * If err(list of errors), value must be null.
  *
