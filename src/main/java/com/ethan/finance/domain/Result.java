@@ -99,6 +99,25 @@ public final class Result<T>
     }
 
     /**
+     * Represents a factory method to construct err(one error message).
+     * The error can not be null nor blank.
+     *
+     * @param error the error
+     * @return Result<T>
+     * @param <T> type of the value
+     */
+    public static <T> Result<T> err(final String error)
+    {
+        Objects.requireNonNull(error, NULL_MSG_ERROR);
+        if(error.isBlank())
+        {
+            throw new IllegalArgumentException(ERR_MSG_ERR_BLANK);
+        }
+
+        return new Result<>(null, List.of(error));
+    }
+
+    /**
      * Checks if errors is an empty list.
      *
      * @return true if empty. Otherwise, false.
