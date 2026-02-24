@@ -67,7 +67,7 @@ public final class Money {
         // If parsing failed, it is not worth validating. Return right away.
         try
         {
-            amountParsed = new BigDecimal(amount);
+            amountParsed = new BigDecimal(amount.strip());
         }
         catch(final NumberFormatException e)
         {

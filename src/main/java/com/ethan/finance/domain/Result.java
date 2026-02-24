@@ -87,6 +87,10 @@ public final class Result<T>
             throw new IllegalArgumentException(ERR_MSG_ERR_EMPTY);
         }
 
+        final List<String> strippedErrors;
+
+        strippedErrors = new ArrayList<>(errors.size());
+
         for(final String error : errors)
         {
             Objects.requireNonNull(error, NULL_MSG_ERROR);
@@ -94,8 +98,11 @@ public final class Result<T>
             {
                 throw new IllegalArgumentException(ERR_MSG_ERR_BLANK);
             }
+
+            strippedErrors.add(error.strip());
         }
-        return new Result<>(null, errors);
+
+        return new Result<>(null, List.copyOf(strippedErrors));
     }
 
     /**
@@ -114,7 +121,7 @@ public final class Result<T>
             throw new IllegalArgumentException(ERR_MSG_ERR_BLANK);
         }
 
-        return new Result<>(null, List.of(error));
+        return new Result<>(null, List.of(error.strip()));
     }
 
     /**
