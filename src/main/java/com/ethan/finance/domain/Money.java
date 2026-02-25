@@ -54,17 +54,18 @@ public final class Money {
      * @param amount the amount
      * @return error messages wrapped in Result or amount wrapped in Result
      */
-    public static Result<Money> of(final String amount)
+    public static Result<BigDecimal> parse(final String amount)
     {
-        Objects.requireNonNull(amount, NULL_MSG_AMT);
+        if(amount == null)
+        {
+            return Result.err(ERR_MSG_AMT_PARSE);
+        }
 
         final List<String> errors;
         final BigDecimal amountParsed;
 
         errors = new ArrayList<>();
 
-        // Parse
-        // If parsing failed, it is not worth validating. Return right away.
         try
         {
             amountParsed = new BigDecimal(amount.strip());
@@ -74,21 +75,30 @@ public final class Money {
             errors.add(ERR_MSG_AMT_PARSE);
             return Result.err(errors);
         }
+        return Result.ok(amountParsed);
+    }
 
-        // Validation
-        if(amountParsed.scale() > SCALE_LIMIT)
+    public static Result<Money> create(final BigDecimal amount)
+    {
+        Objects.requireNonNull(amount, NULL_MSG_AMT);
+
+        final List<String> errors;
+
+        errors = new ArrayList<>();
+
+        if(amount.scale() > SCALE_LIMIT)
         {
             errors.add(ERR_MSG_AMT_LARGE_SCALE);
         }
 
-        if(amountParsed.compareTo(BigDecimal.ZERO) <= 0)
+        if(amount.compareTo(BigDecimal.ZERO) <= 0)
         {
             errors.add(ERR_MSG_AMT_ZERO_NEGATIVE);
         }
 
         if(errors.isEmpty())
         {
-            return Result.ok(new Money(amountParsed));
+            return Result.ok(new Money(amount));
         }
         return Result.err(errors);
     }
