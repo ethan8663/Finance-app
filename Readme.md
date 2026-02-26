@@ -1,6 +1,8 @@
 # Finance app
 
-A finance app for recording income and expenses and viewing summaries.
+A Java finance app for recording income and expenses and viewing summaries.
+
+Built with Clean Architecture and object-oriented principles. 
 
 ## Features (MVP)
 - Record transactions (income and expense)
