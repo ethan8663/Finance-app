@@ -77,3 +77,54 @@ else
 return Result.of(errors)
 
 amount getter method
+
+---------------------
+Parser class
+static Result<LocalDate> parseDate(final String date)
+try parse and assign
+return Result.ok()
+catch return Result.err()
+
+parseType
+parseCategoryId
+
+---------------------
+Transaction class
+private final attributes: LocalDate recordAt, Money money, Type type, int catId, String payer, String payee, String note
+
+private ctor
+requirenonnull every attributes
+
+public static Result<Transaction> of(takes all attributes)
+assume every attributes are parsed and validated successfully
+return Result.ok(new Transaction(...))
+
+public static Result<String> validateType(string)
+should be one of enum
+
+public static Result<String> validatePartyName(string)
+strip, not blank, max char 20
+
+public static Result<String> validateNote(string)
+if null return Result.ok("")
+max char 100
+
+---------------------
+TransactionService class
+private final attributes: categoryRepo, transactionRepo, time
+
+ctor
+
+public static Result<Long> create(TransactionDraft td)
+use Parser and Money class. have Results. merge them to see if parsing was successful.
+if error list not empty, return Result.err(list)
+
+validate recordAt and category using dependencies
+validate money using Money.validate().
+validate type payer payee note using Transaction class
+
+get the Results. merge them. if error list empty, invoke Transaction.of
+get the Transaction object and insert into db using dependency
+get the transactionId as return value
+return Result.ok(transactionId)
+otherwise return Result.err(list)
