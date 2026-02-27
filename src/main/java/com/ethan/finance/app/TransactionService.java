@@ -55,7 +55,7 @@ public final class TransactionService {
             return Result.err(errorList);
         }
 
-        transaction = Transaction.of(
+        transaction = new Transaction(
                 recordAtResult.getValue(),
                 moneyResult.getValue(),
                 typeResult.getValue(),

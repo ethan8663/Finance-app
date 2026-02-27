@@ -1,7 +1,5 @@
 package com.ethan.finance.domain;
 
-import com.ethan.finance.app.TransactionDraft;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -14,7 +12,7 @@ public class Transaction {
     private final String payer;
     private final String note;
 
-    private Transaction(final LocalDate recordAt,
+    public Transaction(final LocalDate recordAt,
                         final Money money,
                         final Type type,
                         final Long categoryId,
@@ -22,6 +20,12 @@ public class Transaction {
                         final String payer,
                         final String note)
     {
+        Objects.requireNonNull(recordAt, "recordAt must not be null");
+        Objects.requireNonNull(money, "money must not be null");
+        Objects.requireNonNull(type, "type must not be null");
+        Objects.requireNonNull(payee, "payee must not be null");
+        Objects.requireNonNull(payer, "payer must not be null");Objects.requireNonNull(note, "note must not be null");
+
         this.recordAt = recordAt;
         this.money = money;
         this.type = type;
@@ -29,24 +33,6 @@ public class Transaction {
         this.payee = payee;
         this.payer = payer;
         this.note = note;
-    }
-
-    public static Transaction of(final LocalDate recordAt,
-                                         final Money money,
-                                         final Type type,
-                                         final Long categoryId,
-                                         final String payee,
-                                         final String payer,
-                                         final String note)
-    {
-        Objects.requireNonNull(recordAt, "recordAt must not be null");
-        Objects.requireNonNull(money, "money must not be null");
-        Objects.requireNonNull(type, "type must not be null");
-        Objects.requireNonNull(payee, "payee must not be null");
-        Objects.requireNonNull(payer, "payer must not be null");Objects.requireNonNull(note, "note must not be null");
-
-
-        return new Transaction(recordAt, money, type, categoryId, payee, payer, note);
     }
 
     public static Result<String> validatePartyName(final String partyName)
