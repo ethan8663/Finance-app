@@ -99,9 +99,6 @@ public static Result<Transaction> of(takes all attributes)
 assume every attributes are parsed and validated successfully
 return Result.ok(new Transaction(...))
 
-public static Result<String> validateType(string)
-should be one of enum
-
 public static Result<String> validatePartyName(string)
 strip, not blank, max char 20
 
