@@ -3,6 +3,7 @@ package com.ethan.finance.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Represents result.
@@ -187,5 +188,16 @@ public final class Result<T>
         }
 
         return List.copyOf(errorsAcc);
+    }
+
+    public <U> Result<U> flatMap(final Function<T, Result<U>> f)
+    {
+        Objects.requireNonNull(f, "flatMap function must not be null.");
+
+        if(!this.errors.isEmpty())
+        {
+            return Result.err(this.errors);
+        }
+        return Objects.requireNonNull(f.apply(this.value), "flatMap function returned null");
     }
 }
