@@ -16,6 +16,10 @@ public final class TransactionService {
                               final CategoryRepository categoryRepository,
                               final Clock clock)
     {
+        Objects.requireNonNull(transactionRepository, "Transaction repository can not be null.");
+        Objects.requireNonNull(categoryRepository, "Category repository can not be null.");
+        Objects.requireNonNull(clock, "Clock can not be null.");
+
         this.transactionRepository = transactionRepository;
         this.categoryRepository = categoryRepository;
         this.clock = clock;
@@ -23,6 +27,8 @@ public final class TransactionService {
 
     public Result<Long> create(final TransactionDraft transactionDraft)
     {
+        Objects.requireNonNull(transactionDraft, "Transaction draft can not be null.");
+
         final List<Result<?>> resultList;
         final List<String> errorList;
 
