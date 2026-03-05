@@ -103,6 +103,7 @@ public final class Result<T>
             strippedErrors.add(error.strip());
         }
 
+        // return copy so that original can not be mutated
         return new Result<>(null, List.copyOf(strippedErrors));
     }
 
