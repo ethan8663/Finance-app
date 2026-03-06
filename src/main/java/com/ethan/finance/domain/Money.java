@@ -1,5 +1,8 @@
 package com.ethan.finance.domain;
 
+import com.ethan.finance.shared.FieldName;
+import com.ethan.finance.shared.ValidationMessage;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -13,11 +16,11 @@ import java.util.Objects;
 public final class Money {
     private static final int SCALE_LIMIT = 2;
 
-    private static final String ERR_MSG_AMT_ZERO_NEGATIVE = "Amount can not be zero or negative.";
-    private static final String ERR_MSG_AMT_LARGE_SCALE = "Amount can not have more than " + SCALE_LIMIT +" decimal places.";
-    private static final String ERR_MSG_AMT_PARSE = "Amount should be a number.";
+    private static final String ERR_MSG_AMT_ZERO_NEGATIVE = ValidationMessage.cannotBe(FieldName.AMOUNT, "zero or negative");
+    private static final String ERR_MSG_AMT_LARGE_SCALE = ValidationMessage.cannotHave(FieldName.AMOUNT, "more than " + SCALE_LIMIT + " decimal places");
+    private static final String ERR_MSG_AMT_PARSE = ValidationMessage.shouldBe(FieldName.AMOUNT, "a number");
 
-    private static final String NULL_MSG_AMT = "Amount can not be null.";
+    private static final String NULL_MSG_AMT = ValidationMessage.mustNotBeNull(FieldName.AMOUNT);
 
     private final BigDecimal amount;
 
