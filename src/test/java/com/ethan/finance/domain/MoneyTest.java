@@ -41,7 +41,7 @@ public class MoneyTest {
         r = Money.create(amount);
 
         assertFalse(r.isOk());
-        assertEquals(List.of("Amount can not have more than 2 decimal places."), r.getErrors());
+        assertEquals(List.of("Amount cannot have more than 2 decimal places."), r.getErrors());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class MoneyTest {
         r = Money.create(amount);
 
         assertFalse(r.isOk());
-        assertEquals(List.of("Amount can not be zero or negative."), r.getErrors());
+        assertEquals(List.of("Amount cannot be zero or negative."), r.getErrors());
     }
 
     @Test
