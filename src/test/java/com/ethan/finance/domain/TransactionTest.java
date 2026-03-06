@@ -28,7 +28,7 @@ public class TransactionTest {
         r = Transaction.validatePartyName(partyName);
 
         assertFalse(r.isOk());
-        assertEquals(List.of("Party name should be valid name less than 20 characters."), r.getErrors());
+        assertEquals(List.of("Payer and Payee should be valid name less than 20 characters."), r.getErrors());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TransactionTest {
         r = Transaction.validatePartyName(partyName);
 
         assertFalse(r.isOk());
-        assertEquals(List.of("Party name should be valid name less than 20 characters."), r.getErrors());
+        assertEquals(List.of("Payer and Payee should be valid name less than 20 characters."), r.getErrors());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class TransactionTest {
         r = Transaction.validateNote(note);
 
         assertFalse(r.isOk());
-        assertEquals(List.of("Note can not exceed 100 characters."), r.getErrors());
+        assertEquals(List.of("Note cannot have more than 100 characters."), r.getErrors());
     }
 
 }
