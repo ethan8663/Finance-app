@@ -1,5 +1,7 @@
 package com.ethan.finance.domain;
 
+import com.ethan.finance.shared.ValidationMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,11 +25,13 @@ public final class Result<T>
     private static final String ERR_MSG_ERR_NOT_EMPTY = "Errors must be empty to get the value.";
     private static final String ERR_MSG_ERR_BLANK = "Error must not be blank";
 
-    private static final String NULL_MSG_ERRORS = "errors";
-    private static final String NULL_MSG_ERROR = "error";
-    private static final String NULL_MSG_VALUE = "value";
-    private static final String NULL_MSG_RESULTS = "results";
-    private static final String NULL_MSG_RESULT = "result";
+    private static final String NULL_MSG_ERRORS = ValidationMessage.mustNotBeNull("Errors");
+    private static final String NULL_MSG_ERROR = ValidationMessage.mustNotBeNull("Error");
+    private static final String NULL_MSG_VALUE = ValidationMessage.mustNotBeNull("Value");
+    private static final String NULL_MSG_RESULTS = ValidationMessage.mustNotBeNull("Results");
+    private static final String NULL_MSG_RESULT = ValidationMessage.mustNotBeNull("Result");
+    private static final String NULL_MSG_FUNC = ValidationMessage.mustNotBeNull("FlatMap function");
+    private static final String NULL_MSG_FUNC_RETURN = ValidationMessage.mustNotBeNull("FlatMap function return");
 
     private final T value;
     private final List<String> errors;
@@ -191,14 +195,21 @@ public final class Result<T>
         return List.copyOf(errorsAcc);
     }
 
+    /**
+     * Enables monadic behavior.
+     *
+     * @param f a function
+     * @return Result<U>
+     * @param <U> any type
+     */
     public <U> Result<U> flatMap(final Function<T, Result<U>> f)
     {
-        Objects.requireNonNull(f, "flatMap function must not be null.");
+        Objects.requireNonNull(f, NULL_MSG_FUNC);
 
         if(!this.errors.isEmpty())
         {
             return Result.err(this.errors);
         }
-        return Objects.requireNonNull(f.apply(this.value), "flatMap function returned null");
+        return Objects.requireNonNull(f.apply(this.value), NULL_MSG_FUNC_RETURN);
     }
 }
