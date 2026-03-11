@@ -1,5 +1,5 @@
 package com.ethan.finance.domain;
 
 public interface CategoryRepository {
-    Result<Long> findCategoryIdByName(String category);
+    Result<Integer> findCategoryIdByName(String category, Type type);
 }
