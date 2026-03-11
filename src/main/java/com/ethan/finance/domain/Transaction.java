@@ -22,7 +22,7 @@ public class Transaction {
     private final LocalDate recordAt;
     private final Money money;
     private final Type type;
-    private final Long categoryId;
+    private final Integer categoryId;
     private final String payee;
     private final String payer;
     private final String note;
@@ -30,7 +30,7 @@ public class Transaction {
     public Transaction(final LocalDate recordAt,
                         final Money money,
                         final Type type,
-                        final Long categoryId,
+                        final Integer categoryId,
                         final String payee,
                         final String payer,
                         final String note)
