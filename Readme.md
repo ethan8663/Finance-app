@@ -3,6 +3,7 @@
 A Java finance app for recording income and expenses and viewing summaries.
 
 Built with Clean Architecture and object-oriented principles. 
+Wrote unit test for business logic using JUnit and Mockito.
 
 ## Features (MVP)
 - Record transactions (income and expense)
