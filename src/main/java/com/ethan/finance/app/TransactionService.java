@@ -18,7 +18,7 @@ public final class TransactionService {
     private static final String NULL_MSG_CLOCK = ValidationMessage.mustNotBeNull("Clock");
     private static final String NULL_MSG_DRAFT = ValidationMessage.mustNotBeNull("Transaction draft");
 
-    private static final String ERR_MSG_RECORD_AT_NULL = ValidationMessage.cannotBe(FieldName.RECORD_AT, "empty");
+    private static final String ERR_MSG_RECORD_AT_NULL = ValidationMessage.mustNotBeNull(FieldName.RECORD_AT);
     private static final String ERR_MSG_DATE_FUTURE = ValidationMessage.cannotBe(FieldName.RECORD_AT, "in the future");
     private static final String ERR_MSG_CATEGORY_INVALID = ValidationMessage.shouldBe(FieldName.CATEGORY, "valid");
 
@@ -56,7 +56,7 @@ public final class TransactionService {
         final Result<LocalDate> recordAtResult;
         final Result<Money> moneyResult;
         final Result<Type> typeResult;
-        final Result<Long> categoryIdResult;
+        final Result<Integer> categoryIdResult;
         final Result<String> payerResult;
         final Result<String> payeeResult;
         final Result<String> noteResult;
@@ -66,15 +66,15 @@ public final class TransactionService {
 
         // monadic approach
         // parse and validate. If parse fails, short circuit.
+        // independent fields first
         recordAtResult = TransactionParser.parseRecordAt(transactionDraft.recordAt()).flatMap(this::validateRecordAt);
         moneyResult = Money.parse(transactionDraft.money()).flatMap(Money::create);
         typeResult = TransactionParser.parseType((transactionDraft.type()));
-        categoryIdResult = createCategoryId((transactionDraft.category()));
         payerResult = Transaction.validatePartyName(transactionDraft.payer());
         payeeResult = Transaction.validatePartyName(transactionDraft.payee());
         noteResult = Transaction.validateNote(transactionDraft.note());
 
-        resultList = List.of(recordAtResult, moneyResult, typeResult, categoryIdResult,
+        resultList = List.of(recordAtResult, moneyResult, typeResult,
                 payerResult, payeeResult, noteResult);
 
         errorList = Result.mergeErrors(resultList);
@@ -82,6 +82,14 @@ public final class TransactionService {
         if(!errorList.isEmpty())
         {
             return Result.err(errorList);
+        }
+
+        // dependent field
+        categoryIdResult = createCategoryId((transactionDraft.category()), typeResult.getValue());
+
+        if(!categoryIdResult.isOk())
+        {
+            return Result.err(categoryIdResult.getErrors());
         }
 
         transaction = new Transaction(
@@ -103,7 +111,7 @@ public final class TransactionService {
     {
         if(recordAt == null)
         {
-            return Result.err(ERR_MSG_RECORD_AT_NULL);
+            throw new IllegalArgumentException(ERR_MSG_RECORD_AT_NULL);
         }
 
         final LocalDate today;
@@ -117,7 +125,7 @@ public final class TransactionService {
         return Result.ok(recordAt);
     }
 
-    private Result<Long> createCategoryId(final String category)
+    private Result<Integer> createCategoryId(final String category, final Type type)
     {
         if(category == null ||
         category.strip().isBlank())
@@ -125,9 +133,9 @@ public final class TransactionService {
             return Result.err(ERR_MSG_CATEGORY_INVALID);
         }
 
-        final Result<Long> categoryId;
+        final Result<Integer> categoryId;
 
-        categoryId = this.categoryRepository.findCategoryIdByName(category);
+        categoryId = this.categoryRepository.findCategoryIdByName(category.toUpperCase(), type);
 
         return categoryId;
     }
