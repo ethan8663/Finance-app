@@ -23,31 +23,31 @@ public class Transaction {
     private final Money money;
     private final Type type;
     private final Integer categoryId;
-    private final String payee;
     private final String payer;
+    private final String payee;
     private final String note;
 
     public Transaction(final LocalDate recordAt,
                         final Money money,
                         final Type type,
                         final Integer categoryId,
+                       final String payer,
                         final String payee,
-                        final String payer,
                         final String note)
     {
         Objects.requireNonNull(recordAt, NULL_MSG_RECORD_AT);
         Objects.requireNonNull(money, NULL_MSG_MONEY);
         Objects.requireNonNull(type, NULL_MSG_Type);
-        Objects.requireNonNull(payee, NULL_MSG_PAYEE);
         Objects.requireNonNull(payer, NULL_MSG_PAYER);
+        Objects.requireNonNull(payee, NULL_MSG_PAYEE);
         Objects.requireNonNull(note, NULL_MSG_NOTE);
 
         this.recordAt = recordAt;
         this.money = money;
         this.type = type;
         this.categoryId = categoryId;
-        this.payee = payee;
         this.payer = payer;
+        this.payee = payee;
         this.note = note;
     }
 
