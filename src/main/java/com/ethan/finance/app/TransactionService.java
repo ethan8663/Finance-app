@@ -3,6 +3,7 @@ package com.ethan.finance.app;
 import com.ethan.finance.domain.*;
 import com.ethan.finance.shared.FieldName;
 import com.ethan.finance.shared.ValidationMessage;
+import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Objects;
 /***
  * Creates a transaction and validates user input that needs dependencies.
  */
+@Service
 public final class TransactionService {
     private static final String NULL_MSG_T_REPO = ValidationMessage.mustNotBeNull("Transaction repository");
     private static final String NULL_MSG_C_REPO = ValidationMessage.mustNotBeNull("Category repository");
