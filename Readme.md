@@ -1,16 +1,17 @@
 # Finance app
 
-A Java finance app for recording income and expenses and viewing summaries.
+A finance web app for recording income and expenses and viewing summaries.
+
+Backend: Java, Spring Boot 
+Frontend: React 
 
 Built with Clean Architecture and object-oriented principles. 
 Wrote unit test for business logic using JUnit and Mockito.
 
 ## Features (MVP)
 - Record transactions (income and expense)
-- Set recurring transactions
 - List transactions
 - View summaries
-- Each transaction is stored in a database
 
 ## To-do
 - Filter transactions
