@@ -3,9 +3,13 @@
 A finance web app for recording income and expenses and viewing summaries.
 
 Backend: Java, Spring Boot 
+
 Frontend: React 
 
+Persistence: MySQL
+
 Built with Clean Architecture and object-oriented principles. 
+
 Wrote unit test for business logic using JUnit and Mockito.
 
 ## Features (MVP)
