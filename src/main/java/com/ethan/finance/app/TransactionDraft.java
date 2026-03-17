@@ -1,7 +1,7 @@
 package com.ethan.finance.app;
 
 public record TransactionDraft(
-        String recordAt,
+        String date,
         String money,
         String type,
         String category,

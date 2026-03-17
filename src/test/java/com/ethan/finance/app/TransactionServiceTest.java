@@ -74,7 +74,7 @@ public class TransactionServiceTest
         result = transactionService.create(draft);
 
         assertFalse(result.isOk());
-        assertEquals(List.of("Record at cannot be in the future."), result.getErrors());
+        assertEquals(List.of("Date cannot be in the future."), result.getErrors());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class TransactionServiceTest
 
         assertFalse(result.isOk());
         assertEquals(List.of(
-                "Record at cannot be in the future.",
+                "Date cannot be in the future.",
                 "Amount cannot have more than 2 decimal places.",
                 "Type should be INCOME or EXPENSE.",
                 "Payer and Payee should be valid name less than 20 characters."), result.getErrors());

@@ -6,8 +6,9 @@ import com.ethan.finance.shared.ValidationMessage;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Transaction {
-    private static final String NULL_MSG_RECORD_AT = ValidationMessage.mustNotBeNull("Record at");
+public class Transaction
+{
+    private static final String NULL_MSG_DATE = ValidationMessage.mustNotBeNull("Date");
     private static final String NULL_MSG_MONEY = ValidationMessage.mustNotBeNull("Money");
     private static final String NULL_MSG_Type = ValidationMessage.mustNotBeNull("Type");
     private static final String NULL_MSG_PAYEE = ValidationMessage.mustNotBeNull("Payee");
@@ -19,7 +20,7 @@ public class Transaction {
     private static final int NAME_LENGTH_LIMIT = 20;
     private static final int NOTE_LENGTH_LIMIT = 100;
 
-    private final LocalDate recordAt;
+    private final LocalDate date;
     private final Money money;
     private final Type type;
     private final Integer categoryId;
@@ -27,22 +28,22 @@ public class Transaction {
     private final String payee;
     private final String note;
 
-    public Transaction(final LocalDate recordAt,
+    public Transaction( final LocalDate date,
                         final Money money,
                         final Type type,
                         final Integer categoryId,
-                       final String payer,
+                        final String payer,
                         final String payee,
                         final String note)
     {
-        Objects.requireNonNull(recordAt, NULL_MSG_RECORD_AT);
+        Objects.requireNonNull(date, NULL_MSG_DATE);
         Objects.requireNonNull(money, NULL_MSG_MONEY);
         Objects.requireNonNull(type, NULL_MSG_Type);
         Objects.requireNonNull(payer, NULL_MSG_PAYER);
         Objects.requireNonNull(payee, NULL_MSG_PAYEE);
         Objects.requireNonNull(note, NULL_MSG_NOTE);
 
-        this.recordAt = recordAt;
+        this.date = date;
         this.money = money;
         this.type = type;
         this.categoryId = categoryId;

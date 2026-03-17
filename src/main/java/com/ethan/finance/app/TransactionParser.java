@@ -9,17 +9,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-final class TransactionParser {
-    private static final String ERR_MSG_RECORD_AT_FORMAT = ValidationMessage.shouldBe(FieldName.RECORD_AT, "YYYY-MM-DD");
+final class TransactionParser
+{
+    private static final String ERR_MSG_DATE_FORMAT = ValidationMessage.shouldBe(FieldName.DATE, "YYYY-MM-DD");
     private static final String ERR_MSG_TYPE = ValidationMessage.shouldBe(FieldName.TYPE, "INCOME or EXPENSE");
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ISO_LOCAL_DATE; // yyyy-MM-dd
 
-    static Result<LocalDate> parseRecordAt(final String recordAt)
+    static Result<LocalDate> parseDate(final String date)
     {
-        if(recordAt == null)
+        if(date == null)
         {
-            return Result.err(ERR_MSG_RECORD_AT_FORMAT);
+            return Result.err(ERR_MSG_DATE_FORMAT);
         }
 
         final LocalDate parsedDate;
@@ -27,14 +28,14 @@ final class TransactionParser {
 
         try
         {
-            strippedDate = recordAt.strip();
+            strippedDate = date.strip();
             parsedDate = LocalDate.parse(strippedDate, DATE_FMT);
 
             return Result.ok(parsedDate);
         }
         catch(final DateTimeParseException e)
         {
-            return Result.err(ERR_MSG_RECORD_AT_FORMAT);
+            return Result.err(ERR_MSG_DATE_FORMAT);
         }
     }
 

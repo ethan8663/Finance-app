@@ -14,14 +14,15 @@ import java.util.Objects;
  * Creates a transaction and validates user input that needs dependencies.
  */
 @Service
-public final class TransactionService {
+public final class TransactionService
+{
     private static final String NULL_MSG_T_REPO = ValidationMessage.mustNotBeNull("Transaction repository");
     private static final String NULL_MSG_C_REPO = ValidationMessage.mustNotBeNull("Category repository");
     private static final String NULL_MSG_CLOCK = ValidationMessage.mustNotBeNull("Clock");
     private static final String NULL_MSG_DRAFT = ValidationMessage.mustNotBeNull("Transaction draft");
 
-    private static final String ERR_MSG_RECORD_AT_NULL = ValidationMessage.mustNotBeNull(FieldName.RECORD_AT);
-    private static final String ERR_MSG_DATE_FUTURE = ValidationMessage.cannotBe(FieldName.RECORD_AT, "in the future");
+    private static final String ERR_MSG_DATE_NULL = ValidationMessage.mustNotBeNull(FieldName.DATE);
+    private static final String ERR_MSG_DATE_FUTURE = ValidationMessage.cannotBe(FieldName.DATE, "in the future");
     private static final String ERR_MSG_CATEGORY_INVALID = ValidationMessage.shouldBe(FieldName.CATEGORY, "valid");
 
     private final TransactionRepository transactionRepository;
@@ -55,7 +56,7 @@ public final class TransactionService {
         final List<Result<?>> resultList;
         final List<String> errorList;
 
-        final Result<LocalDate> recordAtResult;
+        final Result<LocalDate> dateResult;
         final Result<Money> moneyResult;
         final Result<Type> typeResult;
         final Result<Integer> categoryIdResult;
@@ -69,14 +70,14 @@ public final class TransactionService {
         // monadic approach
         // parse and validate. If parse fails, short circuit.
         // independent fields first
-        recordAtResult = TransactionParser.parseRecordAt(transactionDraft.recordAt()).flatMap(this::validateRecordAt);
+        dateResult = TransactionParser.parseDate(transactionDraft.date()).flatMap(this::validateDate);
         moneyResult = Money.parse(transactionDraft.money()).flatMap(Money::create);
         typeResult = TransactionParser.parseType((transactionDraft.type()));
         payerResult = Transaction.validatePartyName(transactionDraft.payer());
         payeeResult = Transaction.validatePartyName(transactionDraft.payee());
         noteResult = Transaction.validateNote(transactionDraft.note());
 
-        resultList = List.of(recordAtResult, moneyResult, typeResult,
+        resultList = List.of(dateResult, moneyResult, typeResult,
                 payerResult, payeeResult, noteResult);
 
         errorList = Result.mergeErrors(resultList);
@@ -95,7 +96,7 @@ public final class TransactionService {
         }
 
         transaction = new Transaction(
-                recordAtResult.getValue(),
+                dateResult.getValue(),
                 moneyResult.getValue(),
                 typeResult.getValue(),
                 categoryIdResult.getValue(),
@@ -109,22 +110,22 @@ public final class TransactionService {
         return Result.ok(transactionId);
     }
 
-    private Result<LocalDate> validateRecordAt(final LocalDate recordAt)
+    private Result<LocalDate> validateDate(final LocalDate date)
     {
-        if(recordAt == null)
+        if(date == null)
         {
-            throw new IllegalArgumentException(ERR_MSG_RECORD_AT_NULL);
+            throw new IllegalArgumentException(ERR_MSG_DATE_NULL);
         }
 
         final LocalDate today;
 
         today = LocalDate.now(clock);
-        if(recordAt.isAfter(today))
+        if(date.isAfter(today))
         {
             return Result.err(ERR_MSG_DATE_FUTURE);
         }
 
-        return Result.ok(recordAt);
+        return Result.ok(date);
     }
 
     private Result<Integer> createCategoryId(final String category, final Type type)
