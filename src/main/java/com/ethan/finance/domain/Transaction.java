@@ -10,7 +10,7 @@ public class Transaction
 {
     private static final String NULL_MSG_DATE = ValidationMessage.mustNotBeNull("Date");
     private static final String NULL_MSG_MONEY = ValidationMessage.mustNotBeNull("Money");
-    private static final String NULL_MSG_Type = ValidationMessage.mustNotBeNull("Type");
+    private static final String NULL_MSG_TYPE = ValidationMessage.mustNotBeNull("Type");
     private static final String NULL_MSG_PAYEE = ValidationMessage.mustNotBeNull("Payee");
     private static final String NULL_MSG_PAYER = ValidationMessage.mustNotBeNull("Payer");
     private static final String NULL_MSG_NOTE = ValidationMessage.mustNotBeNull("Note");
@@ -38,7 +38,7 @@ public class Transaction
     {
         Objects.requireNonNull(date, NULL_MSG_DATE);
         Objects.requireNonNull(money, NULL_MSG_MONEY);
-        Objects.requireNonNull(type, NULL_MSG_Type);
+        Objects.requireNonNull(type, NULL_MSG_TYPE);
         Objects.requireNonNull(payer, NULL_MSG_PAYER);
         Objects.requireNonNull(payee, NULL_MSG_PAYEE);
         Objects.requireNonNull(note, NULL_MSG_NOTE);
