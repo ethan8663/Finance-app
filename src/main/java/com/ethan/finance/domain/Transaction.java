@@ -20,6 +20,41 @@ public class Transaction
     private static final int NAME_LENGTH_LIMIT = 20;
     private static final int NOTE_LENGTH_LIMIT = 100;
 
+    public LocalDate getDate()
+    {
+        return date;
+    }
+
+    public Money getMoney()
+    {
+        return money;
+    }
+
+    public Type getType()
+    {
+        return type;
+    }
+
+    public Integer getCategoryId()
+    {
+        return categoryId;
+    }
+
+    public String getPayer()
+    {
+        return payer;
+    }
+
+    public String getPayee()
+    {
+        return payee;
+    }
+
+    public String getNote()
+    {
+        return note;
+    }
+
     private final LocalDate date;
     private final Money money;
     private final Type type;
